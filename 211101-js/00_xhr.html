@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 建立一個XHR
+    const xhr = new XMLHttpRequest()
+    // 設定請求方式及網址
+    xhr.open('get', 'https://jsonplaceholder.typicode.com/posts')
+    // 當請求成功事
+    xhr.onload = () => {
+      // xhr.responseText 是文字
+      const json = JSON.parse(xhr.responseText)
+      console.log(json)
+    }
+    // 當請求錯誤時
+    xhr.onerror = error => {
+      console.log(error)
+    }
+    // 送出
+    xhr.send()
+  </script>
+</body>
+
+</html>

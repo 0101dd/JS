@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <canvas id="chart"></canvas>
+  <canvas id="chart2"></canvas>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"></script>
+  <script>
+    const canvas = document.getElementById('chart')
+    // jQ 
+    // const chart = $('#chart')
+    const chart = new Chart(canvas, {
+      // 折線圖
+      type: 'line',
+      data: {
+        // X軸名稱
+        labels: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'],
+        // 資料集
+        datasets: [
+          {
+            label: '高雄',
+            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            borderWidth: 5,
+            borderColor: 'red',
+            backgroundColor: 'pink',
+            // 線的彎曲程度
+            lineTension: 0
+          }
+        ]
+      },
+      options: {
+        // 設定從 0 開始
+        scales: {
+          yAxes: {
+            beginAtZero: true
+          }
+        },
+        plugins: {
+          title: {
+            text: '高雄路名',
+            display: true
+          }
+        }
+        // 關閉自動縮放
+        // responsive: false
+      }
+    })
+
+    const canvas2 = document.getElementById('chart2')
+    const chart2 = new Chart(canvas2, {
+      type: 'bar',
+      data: {
+        labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022'],
+        datasets: [{
+          label: 'ABC',
+          data: [10, 20, 33, 59, 15],
+          borderWidth: 5,
+          borderColor: 'blue',
+          backgroundColor: 'pink'
+        }
+        ]
+      },
+      options: {
+        // 設定從 0 開始
+        scales: {
+          yAxes: {
+            beginAtZero: true
+          }
+        },
+        plugins: {
+          title: {
+            text: '高雄路名',
+            display: true
+          }
+        }
+        // 關閉自動縮放
+        // responsive: false
+      }
+    })
+  </script>
+</body>
+
+</html>
