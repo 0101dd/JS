@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <input type="text" v-model="form.name" @keydown.enter="add">
+    <input type="text" v-model.number="form.price" @keydown.enter="add">
+    <input type="button" value="新增" @click="add">
+    <hr>
+    <input type="text" v-model="search">
+    <hr>
+    <table :style="{ border: '5px solid ' + borderColor }">
+      <tr>
+        <th>名稱</th>
+        <th>價格</th>
+        <th></th>
+      </tr>
+      <tr v-for="(food, i) in filteredFoods">
+        <td>{{ food.name }}</td>
+        <td>{{ food.price }}</td>
+        <td>
+          <input type="button" value="x" @click="del(food.id)">
+        </td>
+      </tr>
+    </table>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data () {
+        return {
+          form: {
+            name: '',
+            price: 0
+          },
+          foods: [],
+          search: '',
+          id: 1
+        }
+      },
+      methods: {
+        add () {
+          if (this.form.name.length > 0) {
+            this.foods.push({...this.form, id: this.id})
+            this.id++
+            this.form = {
+              name: '',
+              price: 0
+            }
+          }
+        },
+        del (id) {
+          const i = this.foods.findIndex(food => {
+            return food.id === id
+          })
+          this.foods.splice(i, 1)
+        }
+      },
+      computed: {
+        borderColor () {
+          return this.foods.length >= 5 ? 'blue' : this.foods.length >= 2 ? 'green' : this.foods.length === 0 ? 'red' : ''
+        },
+        filteredFoods () {
+          return this.foods.filter(food => {
+            return food.name.includes(this.search)
+          })
+        }
+      },
+      watch: {
+        foods: {
+          deep: true,
+          handler (value) {
+            localStorage.setItem('foods', JSON.stringify(value))
+          }
+        }
+      },
+      mounted () {
+        this.foods = JSON.parse(localStorage.getItem('foods')) || []
+        this.id = this.foods[this.foods.length - 1].id + 1
+      }
+    })
+  </script>
+</body>
+</html>
