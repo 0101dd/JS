@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+  <div id="app">
+    <h1 class="text-center">一天不看難受，看了難受一天</h1>
+    <p class="text-center">{{ totalLike }} 個讚</p>
+    <div class="container">
+      <div class="row">
+        <div class="col-3" v-for="card in cards">
+          <card :img="card.img" :title="card.title" :like.sync="card.like"></card>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script type="text/x-template" id="card">
+    <div class="card">
+      <img :src="img" class="card-img-top" alt="">
+      <div class="card-body">
+        <h5 class="card-title">{{ title }}</h5>
+      </div>
+      <div class="card-footer">
+        <input 
+          type="button" 
+          :value="syncLike ? '收回讚' : '讚'"
+          class="btn btn-primary"
+          @click="syncLike = !syncLike"
+        >
+      </div>
+    </div>
+  </script>
+  <script>
+    Vue.component('card', {
+      template: '#card',
+      props: {
+        img: {
+          type: String,
+          default: ''
+        },
+        title: {
+          type: String,
+          default: ''
+        },
+        like: {
+          type: Boolean,
+          default: false
+        }
+      },
+      computed: {
+        syncLike: {
+          get () {
+            return this.like
+          },
+          set (value) {
+            this.$emit('update:like', value)
+          }
+        }
+      }
+    })
+    new Vue({
+      el: '#app',
+      data () {
+        return {
+          cards: [
+            { 
+              img: 'https://static.cn486.com/uploadfile/2021/1012/163403913257825.png',
+              title: '哥譚小丑',
+              like: false
+            },
+            {
+              img: 'https://i.ytimg.com/vi/0zIdbm0utgM/maxresdefault.jpg',
+              title: '我站在雲林',
+              like: false
+            },
+            {
+              img: 'https://i.ytimg.com/vi/aCgP8BFjrw4/hqdefault.jpg',
+              title: 'Superidol',
+              like: false
+            },
+            {
+              img: 'https://dingyue.ws.126.net/2021/0728/32cad248p00qwxenx003tc000hd00dsg.png',
+              title: '高質量',
+              like: false
+            }
+          ]
+        }
+      },
+      computed: {
+        totalLike () {
+          return this.cards.filter(card => {
+            return card.like
+          }).length
+        }
+      }
+    })
+  </script>
+</body>
+</html>

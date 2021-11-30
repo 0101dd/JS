@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <btn></btn>
+    <btn>讚</btn>
+    <btn>
+      <img src="https://i.ytimg.com/vi/wrFmRxQ73-Y/maxresdefault.jpg" alt="" width="100">
+    </btn>
+    <hr>
+    <post>
+      <!-- v-slot:title 意思是這個 template 的內容會放到 name 為 title 的 slot -->
+      <template v-slot:title>
+        <h2>標題</h2>
+      </template>
+      <!-- # 是 v-slot: 的簡寫 -->
+      <template #text>
+        <del>內文</del>
+      </template>
+    </post>
+    <hr>
+    <temp>
+      <!-- template 對應到名為 link 的 slot，且將 slot 提供的資料命名為 data -->
+      <template #link="data">
+        <p>{{ data.link }}</p>
+      </template>
+      <!-- template 對應到名為 title 的 slot，且將 slot 提供的資料解構 -->
+      <template #title="{ text, title }">
+        <p>{{ title }}</p>
+        <p>{{ text }}</p>
+      </template>
+    </temp>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script type="text/x-template" id="btn">
+    <button>
+      <slot>送出</slot>
+    </button>
+  </script>
+  <script type="text/x-template" id="post">
+    <div>
+      <slot name="title">
+        <h1>標題</h1>
+      </slot>
+      <slot name="text">
+        <p>內文</h1>
+      </slot>
+    </div>
+  </script>
+  <script type="text/x-template" id="temp">
+    <div>
+      <!-- 在 slot 放 v-bind 可以讓外部的 template 使用元件內的資料 -->
+      <slot name="title" :text="text" :title="title">
+        <h1>標題</h1>
+        <p>內文</p>
+      </slot>
+      <slot name="link" :link="link">
+        <a :href="link">連結</a>
+      </slot>
+    </div>
+  </script>
+  <script>
+    Vue.component('btn', {
+      template: '#btn'
+    })
+
+    Vue.component('post', {
+      template: '#post'
+    })
+
+    Vue.component('temp', {
+      template: '#temp',
+      data () {
+        return {
+          text: 'aaaaaaaa',
+          title: 'bbbbbbbb',
+          link: 'cccccccc'
+        }
+      }
+    })
+
+    new Vue({
+      el: '#app'
+    })
+  </script>
+</body>
+</html>

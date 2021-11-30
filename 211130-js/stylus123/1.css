@@ -1,0 +1,16 @@
+h1 {
+  color: #f00;
+  text-align: center;
+}
+#header {
+  background: #f00;
+}
+#header h1 {
+  color: #f15dff;
+}
+#header a {
+  border: 1px solid #f15dff;
+}
+#header a:hover {
+  color: #000;
+}
